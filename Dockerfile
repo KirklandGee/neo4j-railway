@@ -1,4 +1,4 @@
-FROM neo4j:2025.01-community
+FROM neo4j:2025.07.1-community
 
 # Install APOC and required tools
 RUN apt-get update && apt-get install -y curl cron jq && \
