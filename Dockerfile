@@ -22,9 +22,6 @@ RUN mkdir -p /var/lib/neo4j/backups /var/log /data && \
 USER neo4j
 EXPOSE 7474 7687
 
-# Declare volume for Railway
-VOLUME ["/data"]
-
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD /usr/local/bin/healthcheck.sh
