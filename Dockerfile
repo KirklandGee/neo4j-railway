@@ -2,8 +2,8 @@ FROM neo4j:2025.07.1-community
 
 # Install APOC and required tools
 RUN apt-get update && apt-get install -y curl cron jq && \
-    curl -L https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/5.26.0/apoc-5.26.0-core.jar \
-    -o /var/lib/neo4j/plugins/apoc-5.26.0-core.jar && \
+    curl -L https://github.com/neo4j/apoc/releases/download/2025.07.1/apoc-2025.07.1-core.jar \
+    -o /var/lib/neo4j/plugins/apoc-2025.07.1-core.jar && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy configuration and scripts
@@ -11,14 +11,19 @@ COPY neo4j.conf /var/lib/neo4j/conf/neo4j.conf
 COPY apoc.conf /var/lib/neo4j/conf/apoc.conf
 COPY scripts/ /usr/local/bin/
 COPY init.sh /docker-entrypoint-initdb.d/
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Set up directories and permissions
-RUN mkdir -p /var/lib/neo4j/backups /var/log && \
-    chown -R neo4j:neo4j /var/lib/neo4j /var/log && \
-    chmod +x /usr/local/bin/* /docker-entrypoint-initdb.d/*
+RUN mkdir -p /var/lib/neo4j/backups /var/log /data && \
+    chown -R neo4j:neo4j /var/lib/neo4j /var/log /data && \
+    chmod -R 755 /data && \
+    chmod +x /usr/local/bin/* /docker-entrypoint-initdb.d/* /usr/local/bin/docker-entrypoint.sh
 
 USER neo4j
 EXPOSE 7474 7687
+
+# Declare volume for Railway
+VOLUME ["/data"]
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
