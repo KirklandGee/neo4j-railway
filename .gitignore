@@ -1,0 +1,25 @@
+# Neo4j data directories (for local testing)
+data/
+logs/
+import/
+plugins/
+conf/neo4j.conf.backup
+
+# Backup files (don't commit actual backups)
+*.cypher
+*.cypher.gz
+backups/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.log
