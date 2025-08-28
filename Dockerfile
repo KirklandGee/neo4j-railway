@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y curl cron jq && \
 
 # Copy configuration and scripts
 COPY neo4j.conf /var/lib/neo4j/conf/neo4j.conf
+COPY apoc.conf /var/lib/neo4j/conf/apoc.conf
 COPY scripts/ /usr/local/bin/
 COPY init.sh /docker-entrypoint-initdb.d/
 
