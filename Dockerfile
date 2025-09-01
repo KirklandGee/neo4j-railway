@@ -1,7 +1,7 @@
 FROM neo4j:2025.07.1-community
 
 # Install APOC and required tools
-RUN apt-get update && apt-get install -y curl cron jq && \
+RUN apt-get update && apt-get install -y curl cron jq gosu && \
     curl -L https://github.com/neo4j/apoc/releases/download/2025.07.1/apoc-2025.07.1-core.jar \
     -o /var/lib/neo4j/plugins/apoc-2025.07.1-core.jar && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -19,11 +19,12 @@ RUN mkdir -p /var/lib/neo4j/backups /var/log /data && \
     chmod -R 755 /data && \
     chmod +x /usr/local/bin/* /docker-entrypoint-initdb.d/* /usr/local/bin/docker-entrypoint.sh
 
-USER neo4j
+# Don't switch to neo4j user yet - let entrypoint handle permissions first
 EXPOSE 7474 7687
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD /usr/local/bin/healthcheck.sh
 
-CMD ["neo4j", "console"]
+# Use custom entrypoint that handles Railway volume permissions
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

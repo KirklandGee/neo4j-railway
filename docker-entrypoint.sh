@@ -17,7 +17,7 @@ if [ -d "/data" ]; then
     mkdir -p /data/databases /data/transactions /data/logs 2>/dev/null || true
 fi
 
-echo "🚀 Starting Neo4j..."
+echo "🚀 Starting Neo4j as neo4j user..."
 
-# Run the original Neo4j command
-exec neo4j console
+# Switch to neo4j user and run Neo4j
+exec gosu neo4j neo4j console
