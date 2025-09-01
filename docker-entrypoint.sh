@@ -19,5 +19,5 @@ fi
 
 echo "🚀 Calling original Neo4j entrypoint..."
 
-# Call the original Neo4j entrypoint at its standard location
-exec /docker-entrypoint.sh "$@"
+# Call the original Neo4j entrypoint at its actual location
+exec /startup/docker-entrypoint.sh "$@"
