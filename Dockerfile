@@ -11,13 +11,13 @@ COPY neo4j.conf /var/lib/neo4j/conf/neo4j.conf
 COPY apoc.conf /var/lib/neo4j/conf/apoc.conf
 COPY scripts/ /usr/local/bin/
 COPY init.sh /docker-entrypoint-initdb.d/
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
 
 # Set up directories and permissions
 RUN mkdir -p /var/lib/neo4j/backups /var/log /data && \
     chown -R neo4j:neo4j /var/lib/neo4j /var/log /data && \
     chmod -R 755 /data && \
-    chmod +x /usr/local/bin/* /docker-entrypoint-initdb.d/* /usr/local/bin/docker-entrypoint.sh
+    chmod +x /usr/local/bin/*
 
 # Don't switch to neo4j user yet - let entrypoint handle permissions first
 EXPOSE 7474 7687
@@ -27,4 +27,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD /usr/local/bin/healthcheck.sh
 
 # Use custom entrypoint that handles Railway volume permissions
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/railway-entrypoint.sh"]
+CMD ["neo4j"]

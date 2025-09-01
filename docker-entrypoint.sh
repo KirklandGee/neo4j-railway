@@ -7,7 +7,7 @@ set -e
 if [ -d "/data" ]; then
     echo "🔧 Setting up /data directory permissions..."
     
-    # Ensure neo4j user owns the data directory
+    # Ensure neo4j user owns the data directory  
     chown -R neo4j:neo4j /data 2>/dev/null || echo "⚠️ Could not change ownership (expected on Railway)"
     
     # Ensure the directory is writable
@@ -17,7 +17,7 @@ if [ -d "/data" ]; then
     mkdir -p /data/databases /data/transactions /data/logs 2>/dev/null || true
 fi
 
-echo "🚀 Starting Neo4j as neo4j user..."
+echo "🚀 Calling original Neo4j entrypoint..."
 
-# Switch to neo4j user and run Neo4j
-exec gosu neo4j neo4j console
+# Call the original Neo4j entrypoint at its standard location
+exec /docker-entrypoint.sh "$@"
