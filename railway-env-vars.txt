@@ -9,6 +9,6 @@ NEO4J_apoc_export_file_enabled=true
 NEO4J_apoc_import_file_enabled=true
 NEO4J_apoc_import_file_use__neo4j__config=true
 
-# Security settings for APOC procedures (restrict to what we need)
-NEO4J_dbms_security_procedures_unrestricted=apoc.merge.*,apoc.map.*
-NEO4J_dbms_security_procedures_allowlist=apoc.merge.*,apoc.map.*
+# Security settings for APOC procedures
+NEO4J_dbms_security_procedures_unrestricted=apoc.*
+NEO4J_dbms_security_procedures_allowlist=apoc.*
