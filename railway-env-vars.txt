@@ -1,0 +1,14 @@
+# Railway Environment Variables for Neo4j with APOC
+# Copy these to your Railway service environment variables
+
+# Neo4j Authentication (you already have these)
+NEO4J_AUTH=neo4j/your-password-here
+
+# APOC Settings (using Railway environment variable format)
+NEO4J_apoc_export_file_enabled=true
+NEO4J_apoc_import_file_enabled=true
+NEO4J_apoc_import_file_use__neo4j__config=true
+
+# Security settings for APOC procedures (restrict to what we need)
+NEO4J_dbms_security_procedures_unrestricted=apoc.merge.*,apoc.map.*
+NEO4J_dbms_security_procedures_allowlist=apoc.merge.*,apoc.map.*

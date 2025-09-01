@@ -17,6 +17,11 @@ if [ -d "/data" ]; then
     mkdir -p /data/databases /data/transactions /data/logs 2>/dev/null || true
 fi
 
+# Ensure APOC plugins are readable by neo4j user
+echo "🔧 Setting up APOC plugin permissions..."
+chown -R neo4j:neo4j /var/lib/neo4j/plugins 2>/dev/null || echo "⚠️ Could not change plugin ownership (expected on Railway)"
+chmod -R 644 /var/lib/neo4j/plugins/*.jar 2>/dev/null || true
+
 echo "🚀 Calling original Neo4j entrypoint..."
 
 # Call the original Neo4j entrypoint at its actual location
